@@ -13,11 +13,17 @@
       "parameters": ["clk_frequency"]
     },
     {
-      "pro" : "i2c",
+      "protococls" : "i2c",
       "inputs": ["scl"],
       "outputs": ["scl_out"],
       "inout":["sda"],
       "parameters": ["addr","clk_frequency"]
-    }
+    },
+    {
+      "protococls":"RS485",
+      "inputs":["clk","rx"],
+      "outputs":["tx"],
+      "parameters":["clk_frequency"]
+      }
   ]
 }
