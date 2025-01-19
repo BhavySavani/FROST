@@ -34,6 +34,9 @@ def getProtocolDetails(device_name,protocol_name):
     for i in devices_data['devices']:
         if i['name'] == device_name:
             if "uart" == protocol_name:
+                print(i['baud_rate'])
                 return i['baud_rate']
             else:
+                print(i['frequency'])
                 return i['frequency']
+            
