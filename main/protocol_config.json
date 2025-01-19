@@ -3,7 +3,7 @@
     {
       "protocol": "uart",
       "inputs": ["clk", "rx"],
-      "outputs": ["tx", "tx_out"],
+      "outputs": ["tx"],
       "parameters": ["baud_rate", "clk_frequency"]
     },
     {
