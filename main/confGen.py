@@ -26,13 +26,3 @@ def add_sensors(sensors,device_dict):
     device_dict["sensors"].append(sensor_dict)
 
     return device_dict        
-
-
-
-
-a = create_config(["fpga-1",50000000,0])
-print(a)
-
-b = add_sensors(["sensor1","uart",9600,10000000],a)
-
-print(b)
