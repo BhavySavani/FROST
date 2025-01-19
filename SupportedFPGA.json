@@ -1,0 +1,119 @@
+{
+    "fpgas": [
+    {
+        "family": "Artix-7",
+        "part": "xc7a35t-1ftg256c",
+        "software": "vivado",
+        "clock":"100000"
+    },
+    {
+        "family": "Spartan-7",
+        "part": "xc7s25-csga324",
+        "software": "vivado",
+        "clock":"10000000"
+    },
+    {
+        "family": "Zynq-7000",
+        "part": "xc7z010-1clg400c",
+        "software": "vivado",
+        "clock":"500000"
+    },
+    {
+        "family": "Kintex-7",
+        "part": "xc7k160t-1ffg676c",
+        "software": "vivado",
+        "clock":"48000000"
+    },
+    {
+        "family": "UltraScale",
+        "part": "xcku040-1ffva1156c",
+        "software": "vivado",
+        "clock":"50000000"
+    },
+    {
+        "family": "UltraScale",
+        "part": "xcku035-1ffva1156c",
+        "software": "vivado",
+        "clock":"100000000"
+    },
+    {
+        "family": "UltraScale",
+        "part": "xcku040-1ffva1156c",
+        "software": "vivado",
+        "clock":"4800000"
+    },
+    {
+        "family": "M2S010",
+        "part": "m2s010-1-tq144",
+        "software": "libero",
+        "clock":"50000000"
+    },
+    {
+        "family": "M2S010",
+        "part": "m2s010-1-tq208",
+        "software": "libero",
+        "clock":"100000000"
+    },
+    {
+        "family": "M2S010",
+        "part": "m2s010-1-fbga484",
+        "software": "libero",
+        "clock":"48000000"
+    },
+    {
+        "family": "M2S010",
+        "part": "m2s010-1-lp408",
+        "software": "libero",
+        "clock":"50000000"
+    },
+    {
+        "family": "M2S010",
+        "part": "m2s010-1-lp808",
+        "software": "libero",
+        "clock":"100000000"
+    },
+    {
+        "family": "M2S010",
+        "part": "m2s010-1-lp1008",
+        "software": "libero",
+        "clock":"48000000"
+    },
+    {
+        "family": "Cyclone V",
+        "part": "5csxfc6d6f31c6",
+        "software": "quartus",
+        "clock":"50000000"
+    },
+    {
+        "family": "Arria V",
+        "part": "5av002s2f40c2",
+        "software": "quartus",
+        "clock":"100000000"
+    },
+    {
+        "family": "Stratix V",
+        "part": "5sgsmd5h2f40c2",
+        "software": "quartus",
+        "clock":"1000000"
+    },
+    {
+        "family": "Cyclone IV",
+        "part": "ep4ce10f14c8n",
+        "software": "quartus",
+        "clock":"48000000"
+    },
+    {
+        "family": "Virtex-II Pro",
+        "part": "xc2vp30-7-ff1152",
+        "software": "ise",
+        "clock":"100000"
+    },
+    {
+        "family": "Virtex-II",
+        "part": "xc2v1000-6-bg560",
+        "software": "ise",
+        "clock":"50000000"
+    }
+]
+
+}
