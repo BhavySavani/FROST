@@ -1,13 +1,42 @@
-from fpga.project import Project
+import argparse
 import logging
-prj = Project("vivado")
-prj.set_part('xc7k160t-3-fbg484')
-prj.add_files('uart/uart.v')
-prj.add_files('uart/transmitter.v')
-prj.add_files('uart/receiver.v')
-prj.add_files('uart/baud_rate_gen.v')
+import os 
+
+from fpga.project import Project
+
+logging.basicConfig()
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    '--action', choices=['generate', 'transfer', 'all'], default='generate',
+)
+args = parser.parse_args()
+
+# Function to add all files from a directory to the project
+def add_files_from_directory(prj, directory):
+    for root, _, files in os.walk(directory):
+        for file in files:
+            if file.endswith('.v'):  # Only add Verilog files
+                prj.add_files(os.path.join(root, file))
+                print(os.path.join(root,file))
+
+
+prj = Project("libero")
+prj.set_part('m2s010-1-tq144')
+
+# Add all Verilog files from the output project folder
+output_project_folder = 'output_project'
+add_files_from_directory(prj, output_project_folder)
+prj.add_files('mkr.pdc')
+prj.add_files('mkr.sdc')
 prj.set_top('top_module.v')
-try:
-    prj.generate()
-except Exception as e:
-    logging.warning('{} ({})'.format(type(e).__name__, e))
+
+
+if args.action in ['generate', 'all']:
+    try:
+        prj.generate()
+    except RuntimeError:
+        print('ERROR:generate:Libero not found')
+
+if args.action in ['transfer', 'all']:
+    print('ERROR:transfer:Not yet implemented')
