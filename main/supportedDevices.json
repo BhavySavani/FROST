@@ -3,7 +3,7 @@
     {
         "name": "device1", 
         "protocol": ["i2c","spi"],
-        "frequency":[100000,40000]
+        "frequency":["100000","40000"]
     },
     {   
         "name": "device2", 
@@ -14,7 +14,7 @@
     {
         "name": "device3", 
         "protocol": ["spi"],
-        "frequency":[10000,500000]
+        "frequency":["10M","50M"]
     },
     {
         "name": "device4",  
@@ -31,7 +31,7 @@
     {
         "name":"device6",
         "protocol":["uart"],
-        "baud_rate":[9600,14400,19200,38400],
+        "baud_rate":["9600","14400","19200","38400"],
         "frequency":["10K","10M"]
     }
   ]
