@@ -258,10 +258,10 @@ class Screen2(QWidget):
         self.v_dabba.addWidget(self.freq)
         self.freq.hide()
         
-        self.i2c.toggled.connect(lambda: [self.uart.setChecked(False), self.rs485.setChecked(False), self.spi.setChecked(False)])
-        self.uart.toggled.connect(lambda: [self.i2c.setChecked(False), self.rs485.setChecked(False), self.spi.setChecked(False)])
-        self.rs485.toggled.connect(lambda: [self.i2c.setChecked(False), self.uart.setChecked(False), self.spi.setChecked(False)]) 
-        self.spi.toggled.connect(lambda: [self.i2c.setChecked(False), self.uart.setChecked(False), self.rs485.setChecked(False)])
+        self.i2c.toggled.connect(self.raidoi2c)
+        self.uart.toggled.connect(self.raidouart)
+        self.rs485.toggled.connect(self.raidors485) 
+        self.spi.toggled.connect(self.raidospi)
         self.v_dabba.addWidget(self.addBtn)
         self.addBtn.setEnabled(False)
         h_dabba = QHBoxLayout()
@@ -279,19 +279,55 @@ class Screen2(QWidget):
         self.setLayout(layout)
 
 
+    def raidouart(self):
+        self.i2c.setChecked(False)
+        self.rs485.setChecked(False)
+        self.spi.setChecked(False)
+        self.freq.clear()
+        print('hello moto',txtt)
+        self.freq.addItems(getProtocolDetails(txtt[0],'uart'))
+    def raidoi2c(self):
+        self.uart.setChecked(False)
+        self.rs485.setChecked(False)
+        self.spi.setChecked(False)
+        self.freq.clear()
+        self.freq.addItems(getProtocolDetails(txtt[0],'i2c'))
+    def raidors485(self):
+        self.i2c.setChecked(False)
+        self.uart.setChecked(False)
+        self.spi.setChecked(False)
+        self.freq.clear()
+        self.freq.addItems(getProtocolDetails(txtt[0],'RS485'))
+    def raidospi(self):
+        self.i2c.setChecked(False)
+        self.rs485.setChecked(False)
+        self.uart.setChecked(False)
+        self.freq.clear()
+        self.freq.addItems(getProtocolDetails(txtt[0],'spi'))
+        
+    
     def on_item_changed(self, index):
-        txtt.insert(0,self.list_widget.item(index.row()).text())
+        self.i2c.setCheckable(False)
+        self.uart.setCheckable(False)
+        self.rs485.setCheckable(False)
+        self.spi.setCheckable(False)
+        txtt[0]=self.list_widget.item(index.row()).text()
         self.addBtn.setEnabled(True)
         self.freq.show()
         # itm = QListWidgetItem(txtt)
         # self.selectedList.addItem(itm)
         self.protocols = getProtocols(self.list_widget.item(index.row()).text())
         self.sensorName.setText(f'sensor : {self.list_widget.item(index.row()).text()}')
+        self.freq.clear()
         self.freq.addItems(getProtocolDetails(txtt[0],self.protocols[0]))
         self.i2c.hide()
         self.uart.hide()
         self.rs485.hide()
         self.spi.hide()
+        self.i2c.setCheckable(True)
+        self.uart.setCheckable(True)
+        self.rs485.setCheckable(True)
+        self.spi.setCheckable(True)
         for i in self.protocols:
             if(i=='i2c'):
                 self.i2c.show()
@@ -303,12 +339,24 @@ class Screen2(QWidget):
                 self.spi.show()
         if(self.protocols[0]=='i2c'):
             self.i2c.setChecked(True)
+            self.uart.setChecked(False)
+            self.rs485.setChecked(False)
+            self.spi.setChecked(False)
         if(self.protocols[0]=='uart'):
             self.uart.setChecked(True)
+            self.i2c.setChecked(False)
+            self.rs485.setChecked(False)
+            self.spi.setChecked(False)
         if(self.protocols[0]=='RS485'):
             self.rs485.setChecked(True)
+            self.uart.setChecked(False)
+            self.i2c.setChecked(False)
+            self.spi.setChecked(False)
         if(self.protocols[0]=='spi'):
             self.spi.setChecked(True)  
+            self.uart.setChecked(False)
+            self.i2c.setChecked(False)
+            self.rs485.setChecked(False)
             
     def listAdd(self):
         items = getDevicesList()
@@ -317,12 +365,24 @@ class Screen2(QWidget):
             self.list_widget.addItem(item)
 
     def finalList(self):
-        if(self.uart.isChecked):txtt[1]='uart'
-        if(self.i2c.isChecked):txtt[1]='i2c'
-        if(self.rs485.isChecked):txtt[1]='RS485'
-        if(self.spi.isChecked):txtt[1]='spi'
-        item = QListWidgetItem(f'{txtt[0]}\nprotocols:{txtt[1]}')
+        if(self.uart.isChecked()):txtt[1]='uart'
+        if(self.i2c.isChecked()):txtt[1]='i2c'
+        if(self.rs485.isChecked()):txtt[1]='RS485'
+        if(self.spi.isChecked()):txtt[1]='spi'
+        txtt[2]=self.freq.currentText()
+        item = QListWidgetItem(f'{txtt[0]}\nprotocols:{txtt[1]}\n{self.remo()}{txtt[2]}')
         self.selectedList.addItem(item)
+        print(txtt)
+        add_sensors(txtt)
+        
+    def remo(self):
+        if(txtt[1]=='uart'):
+            return 'baud_rate'
+        else:
+            return 'frequency'
+        
+        
+        
         
     def onChangeText(self):
         search_text = self.search_bar.text().lower()
@@ -445,7 +505,7 @@ class Screen3(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     wid=QStackedWidget()
-    txtt = ['select something','0']
+    txtt = ['select something','0','01']
     selected_items = []
     mainwindow = ResponsiveApp()
     screen2 = Screen2()

@@ -1,5 +1,5 @@
 {
-    "Devices": [
+    "devices": [
     {
         "name": "Device1", 
         "protocol": ["i2c","spi"],
