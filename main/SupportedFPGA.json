@@ -1,6 +1,12 @@
 {
     "fpgas": [
     {
+        "family": "M2S010",
+        "part": "m2s010-1-tq144",
+        "software": "libero",
+        "clock":"50000000"
+    },
+    {
         "family": "Artix-7",
         "part": "xc7a35t-1ftg256c",
         "software": "vivado",
@@ -41,12 +47,6 @@
         "part": "xcku040-1ffva1156c",
         "software": "vivado",
         "clock":"4800000"
-    },
-    {
-        "family": "M2S010",
-        "part": "m2s010-1-tq144",
-        "software": "libero",
-        "clock":"50000000"
     },
     {
         "family": "M2S010",

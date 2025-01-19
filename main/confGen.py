@@ -9,8 +9,8 @@ def create_config(fpga_details):
     return device_dict
 
 def add_sensors(sensors,device_dict):
-    f = open("protocol_config.json",'r')
-    protocols = json.load(f)
+    with open("protocol_config.json",'r') as f:
+        protocols = json.load(f)
     parameter_list = []
     for i in protocols["protocols"]:
         if i["protocol"] == sensors[1]:
@@ -25,4 +25,5 @@ def add_sensors(sensors,device_dict):
 
     device_dict["sensors"].append(sensor_dict)
 
-    return device_dict        
+    with open("devices_config.json","a") as f:
+        json.dumps(device_dict,f)   
