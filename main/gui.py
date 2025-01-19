@@ -234,27 +234,39 @@ class Screen2(QWidget):
         self.store_button.clicked.connect(self.store_selected_items)
 
         
-        v_dabba=QVBoxLayout()
+        self.protocols=[]
+        
+        self.v_dabba=QVBoxLayout()
         self.sensorName = QLabel('here comes the name \n of the sensor',self)
         self.addBtn = QPushButton("add item", self)
         self.addBtn.clicked.connect(self.finalList)
-        v_dabba.addWidget(self.sensorName)
+        self.v_dabba.addWidget(self.sensorName)
         self.i2c = QRadioButton("I2C")
         self.uart = QRadioButton("UART")
         self.rs485 = QRadioButton("RS485")
         self.spi = QRadioButton("SPI")
-        v_dabba.addWidget(self.i2c)
-        v_dabba.addWidget(self.uart)
-        v_dabba.addWidget(self.rs485)
-        v_dabba.addWidget(self.spi)
+        self.v_dabba.addWidget(self.i2c)
+        self.v_dabba.addWidget(self.uart)
+        self.v_dabba.addWidget(self.rs485)
+        self.v_dabba.addWidget(self.spi)
+        self.i2c.hide()
+        self.uart.hide()
+        self.rs485.hide()
+        self.spi.hide()
+        
+        self.freq = QComboBox()
+        self.v_dabba.addWidget(self.freq)
+        self.freq.hide()
+        
         self.i2c.toggled.connect(lambda: [self.uart.setChecked(False), self.rs485.setChecked(False), self.spi.setChecked(False)])
         self.uart.toggled.connect(lambda: [self.i2c.setChecked(False), self.rs485.setChecked(False), self.spi.setChecked(False)])
         self.rs485.toggled.connect(lambda: [self.i2c.setChecked(False), self.uart.setChecked(False), self.spi.setChecked(False)]) 
         self.spi.toggled.connect(lambda: [self.i2c.setChecked(False), self.uart.setChecked(False), self.rs485.setChecked(False)])
-        v_dabba.addWidget(self.addBtn)
+        self.v_dabba.addWidget(self.addBtn)
+        self.addBtn.setEnabled(False)
         h_dabba = QHBoxLayout()
         h_dabba.addWidget(self.list_widget)
-        h_dabba.addLayout(v_dabba)
+        h_dabba.addLayout(self.v_dabba)
         h_dabba.addWidget(self.selectedList)
         
         
@@ -269,9 +281,34 @@ class Screen2(QWidget):
 
     def on_item_changed(self, index):
         txtt.insert(0,self.list_widget.item(index.row()).text())
+        self.addBtn.setEnabled(True)
+        self.freq.show()
         # itm = QListWidgetItem(txtt)
         # self.selectedList.addItem(itm)
+        self.protocols = getProtocols(self.list_widget.item(index.row()).text())
         self.sensorName.setText(f'sensor : {self.list_widget.item(index.row()).text()}')
+        self.freq.addItems(getProtocolDetails(txtt[0],self.protocols[0]))
+        self.i2c.hide()
+        self.uart.hide()
+        self.rs485.hide()
+        self.spi.hide()
+        for i in self.protocols:
+            if(i=='i2c'):
+                self.i2c.show()
+            if(i=='uart'):
+                self.uart.show()
+            if(i=='RS485'):
+                self.rs485.show()
+            if(i=='spi'):
+                self.spi.show()
+        if(self.protocols[0]=='i2c'):
+            self.i2c.setChecked(True)
+        if(self.protocols[0]=='uart'):
+            self.uart.setChecked(True)
+        if(self.protocols[0]=='RS485'):
+            self.rs485.setChecked(True)
+        if(self.protocols[0]=='spi'):
+            self.spi.setChecked(True)  
             
     def listAdd(self):
         items = getDevicesList()
@@ -280,7 +317,11 @@ class Screen2(QWidget):
             self.list_widget.addItem(item)
 
     def finalList(self):
-        item = QListWidgetItem(txtt[0])
+        if(self.uart.isChecked):txtt[1]='uart'
+        if(self.i2c.isChecked):txtt[1]='i2c'
+        if(self.rs485.isChecked):txtt[1]='RS485'
+        if(self.spi.isChecked):txtt[1]='spi'
+        item = QListWidgetItem(f'{txtt[0]}\nprotocols:{txtt[1]}')
         self.selectedList.addItem(item)
         
     def onChangeText(self):
@@ -404,7 +445,7 @@ class Screen3(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     wid=QStackedWidget()
-    txtt = ['fafafa']
+    txtt = ['select something','0']
     selected_items = []
     mainwindow = ResponsiveApp()
     screen2 = Screen2()
