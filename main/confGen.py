@@ -1,42 +1,38 @@
 import json
-def confGenerate(deviceSelected):
-    devicesDict={
-      "clk": 50000000,
-      "devices": []
-    }
 
-    #for i in range(len(deviceSelected)):
-        protocol=protocolFetch(deviceSelected[i])
-        freq=freqFetch(deviceSelected[i])
-        '''for k in range(len(protocol)):
-            if protocol[k] == "SPI" || protocol[k] == "RS485":
-                for j in range(noOfDevices[i]):
-                    devicesDict["devices"].append({
-                    "name": deviceSelected[i]+"_"+str(noOfDevices[i]),
-                    "protocol": protocol[k]
-                    
-                })
-            else :
-                for j in range(noOfDevices[i]):
-                    devicesDict["devices"].append({
-                    "name": deviceSelected[i]+"_"+str(noOfDevices[i]),
-                    "protocol": protocol[k],
-                    "frequency": freq
-                })
-        else:
-            for j in range(noOfDevices[i]):
-                devicesDict["devices"].append({
-                "name": deviceSelected[i]+"_"+str(noOfDevices[i]),
-                "protocol": protocol,
-                "frequency": freq
-        })
-    with open("device_config.json","w") as f:
-        json.dump(devicesDict,f)'''
+def create_config(fpga_details):
+    device_dict = {}
+    device_dict["fpga"] = fpga_details[0]
+    device_dict["frequency"] = fpga_details[1]
+    device_dict["project_type"] = fpga_details[2]
+    device_dict["sensors"] = []
+    return device_dict
+
+def add_sensors(sensors,device_dict):
+    f = open("protocol_config.json",'r')
+    protocols = json.load(f)
+    parameter_list = []
+    for i in protocols["protocols"]:
+        if i["protocol"] == sensors[1]:
+            parameter_list = i["parameters"]
     
-    print(devicesDict)
+    sensor_dict = {}
+    sensor_dict["name"] = sensors[0]
+    sensor_dict["protocols"] = sensors[1]
 
-def protocolFetch(dev):
+    for i in range (len(parameter_list)):
+        sensor_dict[parameter_list[i]] = sensors[i+2]
     
+    device_dict["sensors"].append(sensor_dict)
 
-def freqFetch(dev):
-    pass
+    return device_dict        
+
+
+
+
+a = create_config(["fpga-1",50000000,0])
+print(a)
+
+b = add_sensors(["sensor1","uart",9600,10000000],a)
+
+print(b)
