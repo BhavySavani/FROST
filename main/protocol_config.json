@@ -9,9 +9,15 @@
     {
       "protocol": "spi",
       "inputs": ["clk", "miso"],
-      "outputs": ["mosi", "cs","sckl"],
-      "parameters": []
+      "outputs": ["mosi", "cs","sclk"],
+      "parameters": ["clk_frequency"]
+    },
+    {
+      "pro" : "i2c",
+      "inputs": ["scl"],
+      "outputs": ["scl_out"],
+      "inout":["sda"],
+      "parameters": ["addr","clk_frequency"]
     }
-    
   ]
 }
