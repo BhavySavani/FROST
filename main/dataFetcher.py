@@ -25,17 +25,18 @@ def getProtocols(device_name):
         devices_data = json.load(f) 
     for device in devices_data['devices']:
         if device['name'] == device_name:
-            return device['protocols']
+            return device['protocol']
     return None
 
 def getProtocolDetails(device_name,protocol_name):
-    with open("SupportedProtocols.json", 'r') as f:
+    with open("SupportedDevices.json", 'r') as f:
         devices_data = json.load(f)
-    if device_name in devices_data['devices']:
-        if protocol_name == 'i2c':
-            return [devices_data['devices'][device_name]['frequency'],devices_data['devices'][device_name]['address']]
-        if protocol_name == 'uart':
-            return devices_data['devices'][device_name]['baudrate']
-        else:
-            return devices_data['devices'][device_name]['frequency']
-
+    for i in devices_data['devices']:
+        if i['name'] == device_name:
+            if "uart" == protocol_name:
+                print(i['baud_rate'])
+                return i['baud_rate']
+            else:
+                print(i['frequency'])
+                return i['frequency']
+            
