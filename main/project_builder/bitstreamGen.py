@@ -25,11 +25,11 @@ prj = Project("libero")
 prj.set_part('m2s010-1-tq144')
 
 # Add all Verilog files from the output project folder
-output_project_folder = 'output_project'
+output_project_folder = '../../output_project'
 add_files_from_directory(prj, output_project_folder)
-prj.add_files('mkr.pdc')
-prj.add_files('mkr.sdc')
-prj.set_top('top_module.v')
+prj.add_files('../../output_project/mkr.pdc')
+prj.add_files('../../output_project/mkr.sdc')
+prj.set_top('../../output_project/top_module.v')
 
 
 if args.action in ['generate', 'all']:

@@ -1,5 +1,9 @@
 {
+  "fpga" : "m2s010-1-fbga484",
   "clk": 50000000,
   "devices": [
+    {"name": "sensor1", "protocol": "uart", "baud_rate": 9600},
+    {"name": "sensor2", "protocol": "uart", "baud_rate": 115200},
+    {"name": "sensor3", "protocol": "spi", "frequency":50000000}
   ]
 }

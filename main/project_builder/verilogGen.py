@@ -8,7 +8,7 @@ def read_json(file_path):
     with open(file_path, "r") as file:
         return json.load(file)
 
-def generate_verilog_top(device_config_path, protocol_config_path, output_file="top_module.v"):
+def generate_verilog_top(device_config_path, protocol_config_path, output_file="output_project/top_module.v"):
     """
     Generates a Verilog top module file based on device and protocol configuration.
     """
@@ -28,6 +28,7 @@ def generate_verilog_top(device_config_path, protocol_config_path, output_file="
     all_inputs = []
     all_outputs = []
     
+    verilog_code += "input wire clk, \n"
     for device in devices:
         name = device["name"]
         protocol = device["protocol"]
@@ -37,11 +38,13 @@ def generate_verilog_top(device_config_path, protocol_config_path, output_file="
             raise ValueError(f"Protocol {protocol} not defined in protocol configuration.")
 
         # Inputs and outputs for the device
+
         inputs = protocol_details["inputs"]
         outputs = protocol_details["outputs"]
-        
+        print(inputs)
         for inp in inputs:
-            all_inputs.append(f"input wire {name}_{protocol}_{inp}")
+            if inp!="clk":
+                all_inputs.append(f"input wire {name}_{protocol}_{inp}")
         for out in outputs:
             all_outputs.append(f"output wire {name}_{protocol}_{out}")
     
@@ -64,8 +67,10 @@ def generate_verilog_top(device_config_path, protocol_config_path, output_file="
 
         # device's ports
         device_ports = []
+        device_ports.append(f"    .clk(clk)")
         for inp in inputs:
-            device_ports.append(f"    .{inp}({name}_{protocol}_{inp})")
+            if inp!="clk":
+                device_ports.append(f"    .{inp}({name}_{protocol}_{inp})")
         for out in outputs:
             device_ports.append(f"    .{out}({name}_{protocol}_{out})")
         
@@ -79,9 +84,9 @@ def generate_verilog_top(device_config_path, protocol_config_path, output_file="
                     device_params.append(f"    .{param}({clk})")  # Use the global clock for clk_frequency
             
             # Add the parameters to the instantiation
-            verilog_code += f"    {protocol} {name}_{protocol}#(\n"
+            verilog_code += f"    {protocol} #(\n"
             verilog_code += ",\n".join(device_params)
-            verilog_code += "\n) (\n"
+            verilog_code += f"\n) {name}_{protocol}(\n"
         else:
             # If no parameters, skip the #() part
             verilog_code += f"    {protocol} {name}_{protocol} (\n"
@@ -100,7 +105,7 @@ def generate_verilog_top(device_config_path, protocol_config_path, output_file="
     print(f"Verilog top module generated: {output_file}")
 
 # Paths to JSON files
-device_config_path = "..\devices_config.json"
-protocol_config_path = "..\protocol_config.json"
+device_config_path = "main/devices_config.json"
+protocol_config_path = "main/protocol_config.json"
 # Generate the Verilog file
 generate_verilog_top(device_config_path, protocol_config_path)
