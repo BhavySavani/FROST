@@ -2,32 +2,35 @@
     "devices": [
     {
         "name": "device1", 
-        "protocol": "uart", 
-        "baud_rate": [9600,115200]
+        "protocol": ["i2c","spi"],
+        "frequency":[100000,40000]
     },
     {   
         "name": "device2", 
-        "protocol": "uart", 
-        "baud_rate": 115200
+        "protocol": ["uart"], 
+        "baud_rate": ["115200"],
+        "frequency":["50000000"]
     },
     {
         "name": "device3", 
-        "protocol": "spi"
+        "protocol": ["spi"],
+        "frequency":[10000,500000]
     },
     {
         "name": "device4",  
         "protocol": ["i2c","spi","uart"],
         "frequency":["10K","50M","48M"],
-        "address": "0x01"
+        "address": "0x01",
+        "baud_rate":["9600","14400"]
     },
     {
         "name": "device5",
-        "protocol": "RS485",
+        "protocol": ["RS485","spi"],
         "frequency":["100K","48M"]
     },
     {
         "name":"device6",
-        "protocol":"uart",
+        "protocol":["uart"],
         "baud_rate": [9600,14400,19200,38400],
         "frequency":["10K","10M"]
     }
