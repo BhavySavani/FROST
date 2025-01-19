@@ -23,4 +23,4 @@ def create_project_structure(config_file, project_dir, parent_dir):
 
     print(f"Project structure created at: {project_dir}")
 
-create_project_structure('sensor_config.json', 'output_project', '')
+create_project_structure('sensor_config.json', 'output_project', 'core_ips')
