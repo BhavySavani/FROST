@@ -22,7 +22,7 @@ def add_sensors(sensors,device_dict):
 
     for i in range (len(parameter_list)):
         sensor_dict[parameter_list[i]] = sensors[i+2]
-    
+
     device_dict["sensors"].append(sensor_dict)
 
     return device_dict        

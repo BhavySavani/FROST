@@ -252,8 +252,6 @@ class Screen2(QWidget):
         self.rs485.toggled.connect(lambda: [self.i2c.setChecked(False), self.uart.setChecked(False), self.spi.setChecked(False)]) 
         self.spi.toggled.connect(lambda: [self.i2c.setChecked(False), self.uart.setChecked(False), self.rs485.setChecked(False)])
         v_dabba.addWidget(self.addBtn)
-        
-        
         h_dabba = QHBoxLayout()
         h_dabba.addWidget(self.list_widget)
         h_dabba.addLayout(v_dabba)
