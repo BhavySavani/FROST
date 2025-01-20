@@ -1,6 +1,7 @@
 import os
 import shutil
 import json
+import sys
 
 def add_verilog_files_to_project(config_file, parent_dir):
   
@@ -22,4 +23,5 @@ def add_verilog_files_to_project(config_file, parent_dir):
 
     print(f"Project structure created at: {project_dir}")
 
-add_verilog_files_to_project('main/devices_config.json', 'main/core_ips')
+project_directory = sys.argv[1]
+add_verilog_files_to_project(f'{project_directory}/devices_config.json', 'main/core_ips')
