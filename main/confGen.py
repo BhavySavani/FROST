@@ -1,16 +1,22 @@
 import json
+import os
 
 def create_config(fpga_details):
-    device_dict = {}
+    
+    with open("main/tempfile.json","r") as f:
+        device_dict = json.load(f)
+    project_name = device_dict["project_name"]
     device_dict["fpga"] = fpga_details[0]
     device_dict["frequency"] = int(fpga_details[1])
     device_dict["project_type"] = fpga_details[2]
     device_dict["sensors"] = []
-    with open("main/devices_config.json","w") as f:
+    with open(f"{project_name}/devices_config.json","w") as f:
         json.dump(device_dict,f)   
 
 def add_sensors(sensors):
-    with open("main/devices_config.json","r") as f:
+    with open("main/tempfile.json","r") as f:
+        project_name = json.load(f)
+    with open(f"{project_name["project_name"]}/devices_config.json","r") as f:
         device_dict = json.load(f)
     with open("main/protocol_config.json",'r') as f:
         protocols = json.load(f)
@@ -43,17 +49,20 @@ def add_sensors(sensors):
 
     device_dict["sensors"].append(sensor_dict)
 
-    with open("main/devices_config.json","w") as f:
+    with open(f"{project_name["project_name"]}/devices_config.json","w") as f:
         json.dump(device_dict,f)   
 
 
 def project_name_gen(project_name):
-    with open("main/devices_config.json","r") as f:
-        device_dict = json.load(f)
-        
-    device_dict["project_name"] = project_name
-    
-    with open("main/devices_config.json","w") as f:
+    os.makedirs(project_name, exist_ok=True)
+    device_dict = {"project_name":project_name}
+
+    with open(f"{project_name}/devices_config.json","w") as f:
+        json.dump(device_dict,f)
+    with open(f"main/tempfile.json","w") as f:
         json.dump(device_dict,f)
     
+def delete_tempfile():
+    os.remove("main/tempfile.json")
+
     
