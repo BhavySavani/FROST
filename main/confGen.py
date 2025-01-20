@@ -40,7 +40,6 @@ def add_sensors(sensors):
                 sensors[i]=int(sensors[i])*(10E3)
                 sensor_dict[parameter_list[i-2]] = sensors[i]
             else:
-                print(parameter_list[i-2])
                 sensor_dict[parameter_list[i-2]] = sensors[i]
 
     device_dict["devices"].append(sensor_dict)
