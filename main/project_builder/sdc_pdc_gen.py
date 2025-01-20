@@ -1,8 +1,11 @@
 import json
+import sys
 
 free_pins = [1,2,3,4,5,6,7,8,9,10,13,14,15,16,19,20,21,22,24,27,28,29,30,32,33,36,37,38]
 
-with open("main/devices_config.json",'r') as f:
+project_directory = sys.argv[1]
+ 
+with open(f"{project_directory}/devices_config.json",'r') as f:
     device_config = json.load(f)
 
 with open("main/protocol_config.json","r") as f:
@@ -31,7 +34,7 @@ for i in device_config["devices"]:
                 io_str+=(f"set_io {i["name"]}_{j["protocol"]}_{out} -DIRECTION OUTPUT -pinname {free_pins[index]} -fixed yes\n")
                 index+=1
 
-with open("output_project/mkr.pdc","w") as f:
+with open(f"{project_directory}/mkr.pdc","w") as f:
     f.write(io_str)
-with open("output_project/mkr.sdc","w") as f:
+with open(f"{project_directory}/mkr.sdc","w") as f:
     f.write(sdc_str)

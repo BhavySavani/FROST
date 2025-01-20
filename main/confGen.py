@@ -9,7 +9,7 @@ def create_config(fpga_details):
     device_dict["fpga"] = fpga_details[0]
     device_dict["frequency"] = int(fpga_details[1])
     device_dict["project_type"] = fpga_details[2]
-    device_dict["sensors"] = []
+    device_dict["devices"] = []
     with open(f"{project_name}/devices_config.json","w") as f:
         json.dump(device_dict,f)   
 
@@ -27,27 +27,22 @@ def add_sensors(sensors):
     
     sensor_dict = {}
     sensor_dict["name"] = sensors[0]
-    sensor_dict["protocols"] = sensors[1]
-    print("sensors",sensors)
-    for i in range(len(sensors)):
-        if i>=2:
+    sensor_dict["protocol"] = sensors[1]
+    for i in range(2,len(sensors)):
+            print("parameter list ------->",parameter_list)
+
             if 'M' in sensors[i]:
                 sensors[i]=sensors[i].replace('M','')
-                print(sensors[i])
                 sensors[i]=int(sensors[i])*(10E6)
-                sensor_dict[parameter_list[0]] = sensors[i]
-                parameter_list.pop()
+                sensor_dict[parameter_list[i-2]] = sensors[i]
             elif 'K' in sensors[i]:
                 sensors[i]=sensors[i].replace('K','')
                 sensors[i]=int(sensors[i])*(10E3)
-                sensor_dict[parameter_list[0]] = sensors[i]
-                parameter_list.pop()
+                sensor_dict[parameter_list[i-2]] = sensors[i]
             else:
-                print(parameter_list[0])
-                sensor_dict[parameter_list[0]] = sensors[i]
-                parameter_list.pop()
+                sensor_dict[parameter_list[i-2]] = sensors[i]
 
-    device_dict["sensors"].append(sensor_dict)
+    device_dict["devices"].append(sensor_dict)
 
     with open(f"{project_name["project_name"]}/devices_config.json","w") as f:
         json.dump(device_dict,f)   

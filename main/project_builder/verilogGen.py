@@ -8,7 +8,9 @@ def read_json(file_path):
     with open(file_path, "r") as file:
         return json.load(file)
 
-def generate_verilog_top(device_config_path, protocol_config_path, output_file="output_project/top_module.v"):
+project_directory = sys.argv[1]
+
+def generate_verilog_top(device_config_path, protocol_config_path, output_file):
     """
     Generates a Verilog top module file based on device and protocol configuration.
     """
@@ -17,7 +19,7 @@ def generate_verilog_top(device_config_path, protocol_config_path, output_file="
     protocol_config = read_json(protocol_config_path)
     
     # Extract clock and devices
-    clk = device_config["clk"]
+    clk = device_config["frequency"]
     devices = device_config["devices"]
     protocols = {p["protocol"]: p for p in protocol_config["protocols"]}
     
@@ -41,7 +43,6 @@ def generate_verilog_top(device_config_path, protocol_config_path, output_file="
 
         inputs = protocol_details["inputs"]
         outputs = protocol_details["outputs"]
-        print(inputs)
         for inp in inputs:
             if inp!="clk":
                 all_inputs.append(f"input wire {name}_{protocol}_{inp}")
@@ -102,10 +103,9 @@ def generate_verilog_top(device_config_path, protocol_config_path, output_file="
     with open(output_file, "w") as file:
         file.write(verilog_code)
 
-    print(f"Verilog top module generated: {output_file}")
 
 # Paths to JSON files
-device_config_path = "main/devices_config.json"
+device_config_path = f"{project_directory}/devices_config.json"
 protocol_config_path = "main/protocol_config.json"
 # Generate the Verilog file
-generate_verilog_top(device_config_path, protocol_config_path)
+generate_verilog_top(device_config_path, protocol_config_path,f"{project_directory}/top_module.v")
