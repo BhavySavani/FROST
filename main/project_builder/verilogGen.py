@@ -43,7 +43,6 @@ def generate_verilog_top(device_config_path, protocol_config_path, output_file):
 
         inputs = protocol_details["inputs"]
         outputs = protocol_details["outputs"]
-        print(inputs)
         for inp in inputs:
             if inp!="clk":
                 all_inputs.append(f"input wire {name}_{protocol}_{inp}")
@@ -104,7 +103,6 @@ def generate_verilog_top(device_config_path, protocol_config_path, output_file):
     with open(output_file, "w") as file:
         file.write(verilog_code)
 
-    print(f"Verilog top module generated: {output_file}")
 
 # Paths to JSON files
 device_config_path = f"{project_directory}/devices_config.json"
