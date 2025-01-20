@@ -3,7 +3,6 @@ import shutil
 import json
 
 def create_project_structure(config_file, project_dir, parent_dir):
-  
     with open(config_file, 'r') as file:
         config = json.load(file)
 

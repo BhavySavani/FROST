@@ -316,6 +316,7 @@ class Screen2(QWidget):
         self.freq.show()
         # itm = QListWidgetItem(txtt)
         # self.selectedList.addItem(itm)
+        self.selected=index
         self.protocols = getProtocols(self.list_widget.item(index.row()).text())
         self.sensorName.setText(f'sensor : {self.list_widget.item(index.row()).text()}')
         self.freq.clear()
@@ -364,26 +365,31 @@ class Screen2(QWidget):
             item = QListWidgetItem(item_text)
             self.list_widget.addItem(item)
 
-    def finalList(self):
+    def finalList(self,index):
+        self.txtt=[]
+        self.txtt=[self.list_widget.item(self.selected.row()).text()]
+        print(self.txtt)
         if(self.uart.isChecked()):self.txtt.append('uart')
         if(self.i2c.isChecked()):self.txtt.append('i2c')
         if(self.rs485.isChecked()):self.txtt.append('RS485')
         if(self.spi.isChecked()):self.txtt.append('spi')
-        
         if(self.txtt[1]=="i2c"):
             self.txtt.append(addrFetcher(self.txtt[0]))
             self.txtt.append(self.freq.currentText())
             item = QListWidgetItem(f'{self.txtt[0]}\nprotocols: {self.txtt[1]}\naddress: {self.txtt[2]}\n{self.remo()}: {self.txtt[3]}Hz')   
+            add_sensors(self.txtt)
+            self.selectedList.addItem(item)
         elif(self.txtt[1]=="uart"):
             self.txtt.append(self.freq.currentText())
             item = QListWidgetItem(f'{self.txtt[0]}\nprotocols: {self.txtt[1]}\n{self.remo()}: {self.txtt[2]}')
+            add_sensors(self.txtt)
+            self.selectedList.addItem(item)
         else:
             self.txtt.append(self.freq.currentText())
             item = QListWidgetItem(f'{self.txtt[0]}\nprotocols: {self.txtt[1]}\n{self.remo()}: {self.txtt[2]}Hz')
-        
-        self.selectedList.addItem(item)
+            add_sensors(self.txtt)
+            self.selectedList.addItem(item)
         print(self.txtt)
-        add_sensors(self.txtt)
         
     def remo(self):
         if(self.txtt[1]=='uart'):
@@ -502,17 +508,20 @@ class Screen3(QWidget):
 
         
         self.projectNaam = QLineEdit(self)
-        self.projectNaam.setPlaceholderText("Search...")
+        self.projectNaam.setPlaceholderText("Your project name")
 
         self.store_button = QPushButton("Ok, done", self)
 
         
+        layout.addWidget(self.projectNaam)
         layout.addWidget(self.store_button)
-        layout.addWidget(self.store_button)
+        self.store_button.clicked.connect(self.sendNaam)
 
         self.setLayout(layout)
 
-
+    def sendNaam(self):
+        txte = self.projectNaam.text()
+        print(txte)
 
 
 

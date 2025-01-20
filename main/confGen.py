@@ -22,8 +22,7 @@ def add_sensors(sensors):
     sensor_dict = {}
     sensor_dict["name"] = sensors[0]
     sensor_dict["protocols"] = sensors[1]
-
-    print("parameter list ",parameter_list)
+    print("sensors",sensors)
     for i in range(len(sensors)):
         if i>=2:
             if 'M' in sensors[i]:

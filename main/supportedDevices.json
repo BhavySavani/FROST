@@ -3,7 +3,8 @@
     {
         "name": "Device1", 
         "protocol": ["i2c","spi"],
-        "frequency":["100k","40k"]
+        "frequency":["100k","40k"],
+        "address":"0x08"
     },
     {   
         "name": "Device2", 
@@ -38,7 +39,7 @@
     {
         "name":"Device7",
         "protocol":["i2c","uart"],
-        "address":"0x01",
+        "address":"0xB1",
         "baud_rate":["9600","14400","19200","38400"],
         "frequency":["10K","10M","48M"]
     },
@@ -81,7 +82,8 @@
         "name":"Device14",
         "protocol":["uart","i2c"],
         "baud_rate":["9600","14400","19200","38400"],
-        "frequency":["10M","32M","100M"]
+        "frequency":["10M","32M","100M"],
+        "address":"0x68"
     }
 
   ]
