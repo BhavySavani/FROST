@@ -3,7 +3,7 @@
     {
         "name": "Device1", 
         "protocol": ["i2c","spi"],
-        "frequency":["100000","40000"]
+        "frequency":["100k","40k"]
     },
     {   
         "name": "Device2", 

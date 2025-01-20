@@ -39,4 +39,11 @@ def getProtocolDetails(device_name,protocol_name):
             else:
                 print(i['frequency'])
                 return i['frequency']
+                    
+def addrFetcher(device_name):
+    with open("main/supportedDevices.json", 'r') as f:
+        devices_data = json.load(f)
+    for i in devices_data['devices']:
+        if i['name'] == device_name:
+            return i["address"]
             

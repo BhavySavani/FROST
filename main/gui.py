@@ -284,26 +284,26 @@ class Screen2(QWidget):
         self.rs485.setChecked(False)
         self.spi.setChecked(False)
         self.freq.clear()
-        print('hello moto',txtt)
-        self.freq.addItems(getProtocolDetails(txtt[0],'uart'))
+        print('hello moto',self.txtt)
+        self.freq.addItems(getProtocolDetails(self.txtt[0],'uart'))
     def raidoi2c(self):
         self.uart.setChecked(False)
         self.rs485.setChecked(False)
         self.spi.setChecked(False)
         self.freq.clear()
-        self.freq.addItems(getProtocolDetails(txtt[0],'i2c'))
+        self.freq.addItems(getProtocolDetails(self.txtt[0],'i2c'))
     def raidors485(self):
         self.i2c.setChecked(False)
         self.uart.setChecked(False)
         self.spi.setChecked(False)
         self.freq.clear()
-        self.freq.addItems(getProtocolDetails(txtt[0],'RS485'))
+        self.freq.addItems(getProtocolDetails(self.txtt[0],'RS485'))
     def raidospi(self):
         self.i2c.setChecked(False)
         self.rs485.setChecked(False)
         self.uart.setChecked(False)
         self.freq.clear()
-        self.freq.addItems(getProtocolDetails(txtt[0],'spi'))
+        self.freq.addItems(getProtocolDetails(self.txtt[0],'spi'))
         
     
     def on_item_changed(self, index):
@@ -311,7 +311,7 @@ class Screen2(QWidget):
         self.uart.setCheckable(False)
         self.rs485.setCheckable(False)
         self.spi.setCheckable(False)
-        txtt[0]=self.list_widget.item(index.row()).text()
+        self.txtt=[self.list_widget.item(index.row()).text()]
         self.addBtn.setEnabled(True)
         self.freq.show()
         # itm = QListWidgetItem(txtt)
@@ -319,7 +319,7 @@ class Screen2(QWidget):
         self.protocols = getProtocols(self.list_widget.item(index.row()).text())
         self.sensorName.setText(f'sensor : {self.list_widget.item(index.row()).text()}')
         self.freq.clear()
-        self.freq.addItems(getProtocolDetails(txtt[0],self.protocols[0]))
+        self.freq.addItems(getProtocolDetails(self.txtt[0],self.protocols[0]))
         self.i2c.hide()
         self.uart.hide()
         self.rs485.hide()
@@ -365,18 +365,28 @@ class Screen2(QWidget):
             self.list_widget.addItem(item)
 
     def finalList(self):
-        if(self.uart.isChecked()):txtt[1]='uart'
-        if(self.i2c.isChecked()):txtt[1]='i2c'
-        if(self.rs485.isChecked()):txtt[1]='RS485'
-        if(self.spi.isChecked()):txtt[1]='spi'
-        txtt[2]=self.freq.currentText()
-        item = QListWidgetItem(f'{txtt[0]}\nprotocols:{txtt[1]}\n{self.remo()}{txtt[2]}')
+        if(self.uart.isChecked()):self.txtt.append('uart')
+        if(self.i2c.isChecked()):self.txtt.append('i2c')
+        if(self.rs485.isChecked()):self.txtt.append('RS485')
+        if(self.spi.isChecked()):self.txtt.append('spi')
+        
+        if(self.txtt[1]=="i2c"):
+            self.txtt.append(addrFetcher(self.txtt[0]))
+            self.txtt.append(self.freq.currentText())
+            item = QListWidgetItem(f'{self.txtt[0]}\nprotocols: {self.txtt[1]}\naddress: {self.txtt[2]}\n{self.remo()}: {self.txtt[3]}Hz')   
+        elif(self.txtt[1]=="uart"):
+            self.txtt.append(self.freq.currentText())
+            item = QListWidgetItem(f'{self.txtt[0]}\nprotocols: {self.txtt[1]}\n{self.remo()}: {self.txtt[2]}')
+        else:
+            self.txtt.append(self.freq.currentText())
+            item = QListWidgetItem(f'{self.txtt[0]}\nprotocols: {self.txtt[1]}\n{self.remo()}: {self.txtt[2]}Hz')
+        
         self.selectedList.addItem(item)
-        print(txtt)
-        add_sensors(txtt)
+        print(self.txtt)
+        add_sensors(self.txtt)
         
     def remo(self):
-        if(txtt[1]=='uart'):
+        if(self.txtt[1]=='uart'):
             return 'baud_rate'
         else:
             return 'frequency'
@@ -497,7 +507,7 @@ class Screen3(QWidget):
         self.store_button = QPushButton("Ok, done", self)
 
         
-        layout.addWidget(self.list_widget)
+        layout.addWidget(self.store_button)
         layout.addWidget(self.store_button)
 
         self.setLayout(layout)
@@ -509,7 +519,6 @@ class Screen3(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     wid=QStackedWidget()
-    txtt = ['select something','0','01']
     selected_items = []
     mainwindow = ResponsiveApp()
     screen2 = Screen2()

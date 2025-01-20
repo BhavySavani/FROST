@@ -3,7 +3,7 @@ import json
 def create_config(fpga_details):
     device_dict = {}
     device_dict["fpga"] = fpga_details[0]
-    device_dict["frequency"] = fpga_details[1]
+    device_dict["frequency"] = int(fpga_details[1])
     device_dict["project_type"] = fpga_details[2]
     device_dict["sensors"] = []
     with open("main/devices_config.json","w") as f:
@@ -26,9 +26,21 @@ def add_sensors(sensors):
     print("parameter list ",parameter_list)
     for i in range(len(sensors)):
         if i>=2:
-            print(parameter_list[0])
-            sensor_dict[parameter_list[0]] = sensors[i]
-            parameter_list.pop()
+            if 'M' in sensors[i]:
+                sensors[i]=sensors[i].replace('M','')
+                print(sensors[i])
+                sensors[i]=int(sensors[i])*(10E6)
+                sensor_dict[parameter_list[0]] = sensors[i]
+                parameter_list.pop()
+            elif 'K' in sensors[i]:
+                sensors[i]=sensors[i].replace('K','')
+                sensors[i]=int(sensors[i])*(10E3)
+                sensor_dict[parameter_list[0]] = sensors[i]
+                parameter_list.pop()
+            else:
+                print(parameter_list[0])
+                sensor_dict[parameter_list[0]] = sensors[i]
+                parameter_list.pop()
 
     device_dict["sensors"].append(sensor_dict)
 
