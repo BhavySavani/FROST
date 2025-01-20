@@ -485,10 +485,14 @@ class Screen3(QWidget):
         
         layout = QVBoxLayout()
 
+
         
         self.list_widget = QListWidget(self)
         self.list_widget.setSelectionMode(QListWidget.NoSelection) 
 
+        
+        self.projectNaam = QLineEdit(self)
+        self.projectNaam.setPlaceholderText("Search...")
 
         self.store_button = QPushButton("Ok, done", self)
 

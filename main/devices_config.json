@@ -1,1 +1,1 @@
-{"fpga": "m2s010-1-tq144", "frequency": "50000000", "project_type": 0, "sensors": [{"name": "Device9", "protocols": "spi", "clk_frequency": "100K"}, {"name": "Device7", "protocols": "i2c", "addr": "10K"}, {"name": "Device4", "protocols": "i2c", "addr": "10K"}]}
+{"fpga": "xc7s25-csga324", "frequency": "10000000", "project_type": 0, "sensors": [{"name": "Device1", "protocols": "spi", "clk_frequency": "40000"}]}

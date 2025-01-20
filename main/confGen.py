@@ -34,3 +34,15 @@ def add_sensors(sensors):
 
     with open("main/devices_config.json","w") as f:
         json.dump(device_dict,f)   
+
+
+def project_name_gen(project_name):
+    with open("main/devices_config.json","r") as f:
+        device_dict = json.load(f)
+        
+    device_dict["project_name"] = project_name
+    
+    with open("main/devices_config.json","w") as f:
+        json.dump(device_dict,f)
+    
+    
