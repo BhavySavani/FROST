@@ -3,7 +3,116 @@ from PyQt5.QtWidgets import QApplication,QRadioButton,QStackedWidget, QListWidge
 from PyQt5.QtCore import Qt, QSize
 from dataFetcher import *
 from confGen import*
+
 class ResponsiveApp(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+        
+    def initUI(self):
+        self.setWindowTitle('no. of items')
+
+        self.setStyleSheet("""
+                                    QVBoxLayout{
+                                        display:flex;
+                                        border:solid;
+                                        border-radius:20px;
+                                        background-color:#F8FAFC;
+                                        text-align:center;
+                                        padding:20px;
+                                    }
+                                    QLineEdit {
+                                        background-color: #ffffff;  
+                                        border: 1px solid #ccc;     
+                                        border-radius: 5px;         
+                                        padding: 8px 12px;         
+                                        font-family: Arial, sans-serif;
+                                        font-size: 50px;
+                                    }
+
+                                    QLineEdit:focus {
+                                        border-color: #4CAF50;      
+                                        background-color: #f9f9f9;  
+                                    }
+
+                                    QLineEdit::placeholder {
+                                        color: #888;               
+                                        font-style: italic;        
+                                        font-size: 14px;
+                                    }
+                                    QListWidget {
+                                        background-color: #f5f5f5; 
+                                        border: 1px solid #ccc;     
+                                        border-radius: 5px;         
+                                        padding: 10px;
+                                        font-size: 50px;
+                                    }
+
+                                    QListWidget::item {
+                                        background-color: white;
+                                        border: 1px solid transparent;
+                                        padding: 10px;
+                                        font-size: 50px;
+                                        font-family: Arial, sans-serif;
+                                    }
+
+                                    QListWidget::item:hover {
+                                        background-color: #e1e1e1;  
+                                        cursor: pointer;
+                                    }
+
+                                    QListWidget::item:disabled {
+                                        color: #ccc; /* Disabled text color */
+                                    }
+                                    QPushButton{
+                                        border:solid;
+                                        border-radius:20px;
+                                        background-color:#578E7E;
+                                        color:white;
+                                        text-align:center;
+                                        padding:20px;
+                                        font-size:40px;
+                                    }
+                                    QPushButton:hover{
+                                        border:solid;
+                                        border-radius:20px;
+                                        background-color:black;
+                                        color:white;
+                                        text-align:center;
+                                        padding:20px;
+                                        font-size:40px;
+                                        
+                                        
+                                    }
+                                    """)
+        
+        
+        layout = QVBoxLayout()
+
+
+        
+        self.list_widget = QListWidget(self)
+        self.list_widget.setSelectionMode(QListWidget.NoSelection) 
+
+        
+        self.projectNaam = QLineEdit(self)
+        self.projectNaam.setPlaceholderText("Your project name")
+
+        self.store_button = QPushButton("Proceed", self)
+
+        
+        layout.addWidget(self.projectNaam)
+        layout.addWidget(self.store_button)
+        self.store_button.clicked.connect(self.sendNaam)
+
+        self.setLayout(layout)
+
+    def sendNaam(self):
+        ProjectName = self.projectNaam.text()
+        project_name_gen(ProjectName)
+        wid.setCurrentIndex(wid.currentIndex() + 1)
+        
+class Screen2(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -122,7 +231,7 @@ class ResponsiveApp(QWidget):
         self.projectBtn.setFixedWidth(new_button_width)
 
     
-class Screen2(QWidget):
+class Screen3(QWidget):
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -413,115 +522,8 @@ class Screen2(QWidget):
             selected_items.append(item.text())
         
         print("Selected items:", selected_items)
-        wid.setCurrentIndex(wid.currentIndex() + 1)
 
 
-class Screen3(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.initUI()
-        
-    def initUI(self):
-        self.setWindowTitle('no. of items')
-
-        self.setStyleSheet("""
-                                    QVBoxLayout{
-                                        display:flex;
-                                        border:solid;
-                                        border-radius:20px;
-                                        background-color:#F8FAFC;
-                                        text-align:center;
-                                        padding:20px;
-                                    }
-                                    QLineEdit {
-                                        background-color: #ffffff;  
-                                        border: 1px solid #ccc;     
-                                        border-radius: 5px;         
-                                        padding: 8px 12px;         
-                                        font-family: Arial, sans-serif;
-                                        font-size: 50px;
-                                    }
-
-                                    QLineEdit:focus {
-                                        border-color: #4CAF50;      
-                                        background-color: #f9f9f9;  
-                                    }
-
-                                    QLineEdit::placeholder {
-                                        color: #888;               
-                                        font-style: italic;        
-                                        font-size: 14px;
-                                    }
-                                    QListWidget {
-                                        background-color: #f5f5f5; 
-                                        border: 1px solid #ccc;     
-                                        border-radius: 5px;         
-                                        padding: 10px;
-                                        font-size: 50px;
-                                    }
-
-                                    QListWidget::item {
-                                        background-color: white;
-                                        border: 1px solid transparent;
-                                        padding: 10px;
-                                        font-size: 50px;
-                                        font-family: Arial, sans-serif;
-                                    }
-
-                                    QListWidget::item:hover {
-                                        background-color: #e1e1e1;  
-                                        cursor: pointer;
-                                    }
-
-                                    QListWidget::item:disabled {
-                                        color: #ccc; /* Disabled text color */
-                                    }
-                                    QPushButton{
-                                        border:solid;
-                                        border-radius:20px;
-                                        background-color:#578E7E;
-                                        color:white;
-                                        text-align:center;
-                                        padding:20px;
-                                        font-size:40px;
-                                    }
-                                    QPushButton:hover{
-                                        border:solid;
-                                        border-radius:20px;
-                                        background-color:black;
-                                        color:white;
-                                        text-align:center;
-                                        padding:20px;
-                                        font-size:40px;
-                                        
-                                        
-                                    }
-                                    """)
-        
-        
-        layout = QVBoxLayout()
-
-
-        
-        self.list_widget = QListWidget(self)
-        self.list_widget.setSelectionMode(QListWidget.NoSelection) 
-
-        
-        self.projectNaam = QLineEdit(self)
-        self.projectNaam.setPlaceholderText("Your project name")
-
-        self.store_button = QPushButton("Ok, done", self)
-
-        
-        layout.addWidget(self.projectNaam)
-        layout.addWidget(self.store_button)
-        self.store_button.clicked.connect(self.sendNaam)
-
-        self.setLayout(layout)
-
-    def sendNaam(self):
-        txte = self.projectNaam.text()
-        print(txte)
 
 
 
