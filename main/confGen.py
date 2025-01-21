@@ -59,5 +59,3 @@ def project_name_gen(project_name):
     
 def delete_tempfile():
     os.remove("main/tempfile.json")
-
-    
