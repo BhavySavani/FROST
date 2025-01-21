@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication,QRadioButton,QStackedWidget, QListWidgetItem, QHBoxLayout, QLineEdit, QListWidget, QWidget, QVBoxLayout, QPushButton,QComboBox, QLabel
+from PyQt5.QtWidgets import QApplication,QRadioButton,QStackedWidget, QListWidgetItem, QHBoxLayout, QLineEdit, QListWidget, QWidget, QVBoxLayout, QPushButton,QComboBox, QLabel,QCheckBox
 from PyQt5.QtCore import Qt, QSize
 from dataFetcher import *
 from confGen import*
@@ -320,8 +320,10 @@ class Screen3(QWidget):
                                         padding:20px;
                                         font-size:40px;
                                         
-                                        
                                     }
+                                    QCheckBox{
+                                        padding:10px;
+                           }
                                     """)
         
         
@@ -362,8 +364,13 @@ class Screen3(QWidget):
         self.uart.hide()
         self.rs485.hide()
         self.spi.hide()
-        
+        self.gmc_gpio=QCheckBox("GMC_GPIO_Switch",self)
+        self.cub_gpio=QCheckBox("CUB_GPIO_Switch",self)
+        self.gmc_gpio.hide()
+        self.cub_gpio.hide()
         self.freq = QComboBox()
+        self.v_dabba.addWidget(self.gmc_gpio)
+        self.v_dabba.addWidget(self.cub_gpio)
         self.v_dabba.addWidget(self.freq)
         self.freq.hide()
         
@@ -377,10 +384,7 @@ class Screen3(QWidget):
         h_dabba.addWidget(self.list_widget)
         h_dabba.addLayout(self.v_dabba)
         h_dabba.addWidget(self.selectedList)
-        self.gmc_gpio=QPushButton("GMC_GPIO_Switch",self)
-        self.cub_gpio=QPushButton("CUB_GPIO_Switch",self)
-        self.gmc_gpio.hide()
-        self.cub_gpio.hide()
+        
         layout.addWidget(self.search_bar)
         layout.addLayout(h_dabba)
         layout.addWidget(self.store_button)
@@ -423,6 +427,12 @@ class Screen3(QWidget):
         self.txtt=[self.list_widget.item(index.row()).text()]
         self.addBtn.setEnabled(True)
         self.freq.show()
+        if(self.list_widget.item(index.row()).text()=="PSLV_Interface_Board"):
+            self.gmc_gpio.show()
+            self.cub_gpio.show()
+        else:
+            self.gmc_gpio.hide()
+            self.cub_gpio.hide()
         # itm = QListWidgetItem(txtt)
         # self.selectedList.addItem(itm)
         self.selected=index
@@ -478,9 +488,6 @@ class Screen3(QWidget):
     def finalList(self,index):
         self.txtt=[]
         self.txtt=[self.list_widget.item(self.selected.row()).text()]
-        if(self.txtt[0]=="PSLV_Interface_Board"):
-            self.gmc_gpio.show()
-            self.cub_gpio.show()
         print(self.txtt)
         if(self.uart.isChecked()):self.txtt.append('uart')
         if(self.i2c.isChecked()):self.txtt.append('i2c')
