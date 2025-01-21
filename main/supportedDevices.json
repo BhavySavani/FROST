@@ -1,85 +1,88 @@
 {
     "devices": [
     {
-        "name": "Device1", 
-        "protocol": ["i2c","spi"],
+        "name": "GMC_Board", 
+        "protocol": ["i2c","uart"],
         "frequency":["100k","40k"],
+        "baud_rate":["9600","14400","19200","38400","115200"],
         "address":"0x08"
     },
     {   
-        "name": "Device2", 
+        "name": "CUB_Board", 
         "protocol":["spi","i2c","uart"],
         "frequency":["10M","48M","50M","100K","40K"],
         "baud_rate":["9600","14400","19200","38400","115200"],
         "address":"0x68"
     },
     {
-        "name": "Device3", 
-        "protocol": ["spi"],
-        "frequency":["10M","50M"]
+        "name": "PSLV_Interface_Board", 
+        "protocol": ["uart","i2c"],
+        "frequency":["10M","50M"],
+        "baud_rate":["9600","14400","19200","38400","115200"]
+
     },
     {
-        "name": "Device4",  
+        "name": "Board4",  
         "protocol": ["i2c","spi","uart"],
         "frequency":["10K","50M","48M"],
         "address": "0x01",
         "baud_rate":["9600","14400"]
     },
     {
-        "name": "Device5",
+        "name": "Board5",
         "protocol": ["RS485","spi"],
         "frequency":["100K","48M"]
     },
     {
-        "name":"Device6",
+        "name":"Board6",
         "protocol":["uart"],
         "baud_rate":["9600","14400","19200","38400"],
         "frequency":["10K","10M","64M"]
     },
     {
-        "name":"Device7",
+        "name":"Board7",
         "protocol":["i2c","uart"],
         "address":"0xB1",
         "baud_rate":["9600","14400","19200","38400"],
         "frequency":["10K","10M","48M"]
     },
     {
-        "name":"Device8",
+        "name":"Board8",
         "protocol":["RS485"],
         "frequency":["50M","48M","10M"]
     },
     {
-        "name":"Device9",
+        "name":"Board9",
         "protocol":["spi","uart"],
         "frequency":["100K","400K","10M","32M"],
         "baud_rate":["9600","14400","19200","38400"]
     },
     {
-        "name":"Device10",
+        "name":"Board10",
         "protocol":["i2c","spi","uart"],
         "frequency":["10M","32M","100M"],
         "baud_rate":["9600","14400","19200","38400", "57600", "115200", "230400"],
         "address":"0xD0"
     },
     {
-        "name":"Device11",
+        "name":"Board11",
         "protocol":["uart"],
         "baud_rate":["115200","230400","460800","921600"]
     },
     {
-        "name":"Device12",
+        "name":"Board12",
         "protocol":["i2c","uart"],
         "address":"0x50",
         "baud_rate":["9600","14400","19200","38400"],
         "frequency":["10M","32M","100M","50M"]
     },
     {
-        "name":"Device13",
+        "name":"Board13",
         "protocol":["RS485","spi"],
         "frequency":["10M","48M","50M"]
     },
     {
-        "name":"Device14",
+        "name":"Board14",
         "protocol":["uart","i2c"],
         "baud_rate":["9600","14400","19200","38400"],
         "frequency":["10M","32M","100M"],

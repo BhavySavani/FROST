@@ -377,10 +377,10 @@ class Screen3(QWidget):
         h_dabba.addWidget(self.list_widget)
         h_dabba.addLayout(self.v_dabba)
         h_dabba.addWidget(self.selectedList)
-        
-        
-
-
+        self.gmc_gpio=QPushButton("GMC_GPIO_Switch",self)
+        self.cub_gpio=QPushButton("CUB_GPIO_Switch",self)
+        self.gmc_gpio.hide()
+        self.cub_gpio.hide()
         layout.addWidget(self.search_bar)
         layout.addLayout(h_dabba)
         layout.addWidget(self.store_button)
@@ -427,7 +427,7 @@ class Screen3(QWidget):
         # self.selectedList.addItem(itm)
         self.selected=index
         self.protocols = getProtocols(self.list_widget.item(index.row()).text())
-        self.sensorName.setText(f'sensor : {self.list_widget.item(index.row()).text()}')
+        self.sensorName.setText(f'Board : {self.list_widget.item(index.row()).text()}')
         self.freq.clear()
         self.freq.addItems(getProtocolDetails(self.txtt[0],self.protocols[0]))
         self.i2c.hide()
@@ -438,6 +438,7 @@ class Screen3(QWidget):
         self.uart.setCheckable(True)
         self.rs485.setCheckable(True)
         self.spi.setCheckable(True)
+        
         for i in self.protocols:
             if(i=='i2c'):
                 self.i2c.show()
@@ -477,6 +478,9 @@ class Screen3(QWidget):
     def finalList(self,index):
         self.txtt=[]
         self.txtt=[self.list_widget.item(self.selected.row()).text()]
+        if(self.txtt[0]=="PSLV_Interface_Board"):
+            self.gmc_gpio.show()
+            self.cub_gpio.show()
         print(self.txtt)
         if(self.uart.isChecked()):self.txtt.append('uart')
         if(self.i2c.isChecked()):self.txtt.append('i2c')
@@ -505,8 +509,6 @@ class Screen3(QWidget):
             return 'baud_rate'
         else:
             return 'frequency'
-        
-        
         
         
     def onChangeText(self):
