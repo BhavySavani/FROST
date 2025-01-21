@@ -18,7 +18,9 @@
         "name": "PSLV_Interface_Board", 
         "protocol": ["uart","i2c"],
         "frequency":["10M","50M"],
-        "baud_rate":["9600","14400","19200","38400","115200"]
+        "baud_rate":["9600","14400","19200","38400","115200"],
+        "address":"0x58"
+
 
     },
     {

@@ -510,10 +510,6 @@ class Screen3(QWidget):
         else:
             return 'frequency'
         
-<<<<<<< HEAD
-        
-=======
->>>>>>> d16d438484797b9db18aea24579f5c59d171f1c8
     def onChangeText(self):
         search_text = self.search_bar.text().lower()
         for i in range(self.list_widget.count()):
