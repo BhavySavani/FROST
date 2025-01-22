@@ -59,3 +59,10 @@ def project_name_gen(project_name):
     
 def delete_tempfile():
     os.remove("main/tempfile.json")
+
+def fetch_name():
+    with open("main/tempfile.json", "r") as file:
+        data=json.load(file)
+    prj_name = data['project_name']
+
+    return prj_name

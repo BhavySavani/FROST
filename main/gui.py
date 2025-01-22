@@ -1,6 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication,QRadioButton,QStackedWidget, QListWidgetItem, QHBoxLayout, QLineEdit, QListWidget, QWidget, QVBoxLayout, QPushButton,QComboBox, QLabel,QCheckBox
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtWidgets import QApplication,QWidget,QRadioButton,QStackedWidget, QListWidgetItem, QHBoxLayout, QLineEdit, QListWidget, QWidget, QVBoxLayout, QPushButton,QComboBox, QLabel,QCheckBox ,QTextEdit
+from PyQt5.QtCore import Qt, QSize ,QProcess, QByteArray, QObject, pyqtSignal, pyqtSlot
+from PyQt5.QtGui import QFont
+from subprocess import Popen, PIPE
 from dataFetcher import *
 from confGen import*
 
@@ -530,19 +532,70 @@ class Screen3(QWidget):
             selected_items.append(item.text())
         
         print("Selected items:", selected_items)
-        delete_tempfile()
+        wid.setCurrentIndex(wid.currentIndex()+1)
 
+class Terminal(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        self.setGeometry(100, 100, 800, 800)
+        self.setWindowTitle('Console Output')
+
+        self.output = QTextEdit(self)
+        self.output.setReadOnly(True)
+        self.output.setFont(QFont("Courier", 10))
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.output)
+        self.setLayout(layout)
+
+        self.process = QProcess(self)
+        self.process.readyReadStandardOutput.connect(self.handle_stdout)
+        self.process.readyReadStandardError.connect(self.handle_stderr)
+        self.process.finished.connect(self.process_finished)
+        try:
+            prj_name = fetch_name()
+        except Exception as e:
+            print(f"Error fetching project name: {e}")
+            prj_name = ""
+        # Start the command automatically
+        delete_tempfile()
+        self.process.start(f"python main/arg_parser.py {prj_name} -c create-project")  # Replace with your desired command
+
+
+
+    @pyqtSlot()
+    def handle_stdout(self):
+        data = self.process.readAllStandardOutput()
+        text = str(data, encoding='utf-8')
+        self.output.insertPlainText(text)
+
+    @pyqtSlot()
+    def handle_stderr(self):
+        data = self.process.readAllStandardError()
+        text = str(data, encoding='utf-8')
+        self.output.insertPlainText(text)
+
+    @pyqtSlot()
+    @pyqtSlot()
+    def process_finished(self):
+        self.output.insertPlainText("Bitstream Generated.")
 
 if __name__ == '__main__':
+    global ProjectName 
     app = QApplication(sys.argv)
     wid=QStackedWidget()
     selected_items = []
     mainwindow = ResponsiveApp()
     screen2 = Screen2()
     screen3 = Screen3()
+    terminal=Terminal()
     wid.addWidget(mainwindow)
     wid.addWidget(screen2)
     wid.addWidget(screen3)
+    wid.addWidget(terminal)
     wid.show()
     mainwindow.show()
     wid.resize(1600, 1200)  # Initial size
