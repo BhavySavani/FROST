@@ -546,8 +546,10 @@ class Terminal(QWidget):
         self.output = QTextEdit(self)
         self.output.setReadOnly(True)
         self.output.setFont(QFont("Courier", 10))
-
+        self.generateBitstream=QPushButton("Generate Bitstream")
+        self.generateBitstream.clicked.connect(self.genBitstream)
         layout = QVBoxLayout()
+        layout.addWidget(self.generateBitstream)
         layout.addWidget(self.output)
         self.setLayout(layout)
 
@@ -555,13 +557,10 @@ class Terminal(QWidget):
         self.process.readyReadStandardOutput.connect(self.handle_stdout)
         self.process.readyReadStandardError.connect(self.handle_stderr)
         self.process.finished.connect(self.process_finished)
-        try:
-            prj_name = fetch_name()
-        except Exception as e:
-            print(f"Error fetching project name: {e}")
-            prj_name = ""
-        # Start the command automatically
-        delete_tempfile()
+
+    def genBitstream(self):
+        prj_name=fetch_name()
+            # Start the command automatically
         self.process.start(f"python main/arg_parser.py {prj_name} -c create-project")  # Replace with your desired command
 
 
