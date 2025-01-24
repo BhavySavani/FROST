@@ -53,5 +53,3 @@ def devicesFetcher(board_name):
     for i in hardware_data['boards']:
         if i['name'] == board_name:
             return i['devices']
-
-
