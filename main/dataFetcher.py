@@ -46,4 +46,12 @@ def addrFetcher(device_name):
     for i in devices_data['devices']:
         if i['name'] == device_name:
             return i["address"]
-            
+
+def devicesFetcher(board_name):
+    with open("main/supportedDevices.json", 'r') as f:
+        hardware_data = json.load(f)
+    for i in hardware_data['boards']:
+        if i['name'] == board_name:
+            return i['devices']
+
+
