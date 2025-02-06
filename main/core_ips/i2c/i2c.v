@@ -1,8 +1,8 @@
 module i2c#(parameter addr, clk_frequency)
 (
-    inout sda;
-    output scl;
-    input clk;
+    inout sda,
+    output scl,
+    input clk
 );
 reg [3:0] count;
 
