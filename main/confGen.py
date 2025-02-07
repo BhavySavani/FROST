@@ -29,16 +29,19 @@ def add_sensors(sensors):
     sensor_dict["name"] = sensors[0]
     sensor_dict["protocol"] = sensors[1]
     for i in range(2,len(sensors)):
-            print("parameter list ------->",parameter_list)
 
             if 'M' in sensors[i]:
                 sensors[i]=sensors[i].replace('M','')
-                sensors[i]=int(sensors[i])*(10E6)
+                sensors[i]=int(int(sensors[i])*(10E6))
                 sensor_dict[parameter_list[i-2]] = sensors[i]
             elif 'K' in sensors[i]:
                 sensors[i]=sensors[i].replace('K','')
-                sensors[i]=int(sensors[i])*(10E3)
+                sensors[i]=int(int(sensors[i])*(10E3))
                 sensor_dict[parameter_list[i-2]] = sensors[i]
+            elif '0x' in sensors[i]:
+                sensors[i]=sensors[i].replace('0x','')
+                adr=str(bin(int(sensors[i], 16))[2:].zfill(8))
+                sensor_dict[parameter_list[i-2]] = "7b"+(adr[1:])
             else:
                 sensor_dict[parameter_list[i-2]] = sensors[i]
 

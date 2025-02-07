@@ -399,7 +399,6 @@ class Screen3(QWidget):
         self.rs485.setChecked(False)
         self.spi.setChecked(False)
         self.freq.clear()
-        print('hello moto',self.txtt)
         self.freq.addItems(getProtocolDetails(self.txtt[0],'uart'))
     def raidoi2c(self):
         self.uart.setChecked(False)
